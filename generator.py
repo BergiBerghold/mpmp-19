@@ -3,6 +3,7 @@ from bitarray import bitarray
 from time import time
 import datetime
 
+# Credit to https://codereview.stackexchange.com/users/210384/greg-ames for the very efficient prime number generator
 # Counts and optionally prints all prime numbers no larger than 'n'  
 
 #CUTOFF      = 10          # for debugging only
@@ -251,17 +252,14 @@ def segmentedSieveGenerator(limit, statsOnly = False):
 
 
 # Driver Code
-a = '1e15'
-n = int(float(a))
-
+sieve_limit = 10**15
 primes_counter = 0
-
 start = time()
 
 with open("generator_log.txt", "a") as f:
     f.write('\nNew Run starting at ' + str(datetime.datetime.now()) + '\n')
 
-for idx, prime in enumerate(segmentedSieveGenerator(n)):
+for idx, prime in enumerate(segmentedSieveGenerator(sieve_limit)):
     primes_counter += prime * prime
 
     if primes_counter % (idx+1) == 0:
@@ -271,6 +269,5 @@ for idx, prime in enumerate(segmentedSieveGenerator(n)):
 
     if (idx+1) % 10000000 == 0:
         print('Checked n to ' + str(idx+1) + ' in ' + str(time() - start))
-        exit()
         with open("generator_log.txt", "a") as f:
             f.write('Checked n to ' + str(idx+1) + ' in ' + str(time() - start) + '\n')
